@@ -1,0 +1,67 @@
+{
+    "shapes": [
+        {
+            "name": "square",
+            "type": "square",
+            "indexes":[
+                [1,1],
+                [1,2],
+                [2,2],
+                [2,1]
+            ],
+            "color": "orange"
+        },
+        {
+            "name": "parallelogram1",
+            "type": "parallelogram",
+            "indexes":[
+                [2, 1],
+                [1, 2],
+                [2, 2],
+                [3, 1]
+            ],
+            "color": "green"
+        },
+        {
+            "name": "parallelogram2",
+            "type": "parallelogram",
+            "indexes":[
+                [2, 1],
+                [1, 1],
+                [2, 2],
+                [3, 2]
+            ],
+            "color": "olive"
+        },
+        {
+            "name": "triangle1",
+            "type": "triangle",
+            "indexes": [
+                [2, 1],
+                [1, 2],
+                [2, 3]              
+            ],
+            "color": "aquamarine"
+        },
+        {
+            "name": "triangle2",
+            "type": "triangle",
+            "indexes": [
+                [1, 1],
+                [1, 2],
+                [2, 2]
+            ],
+            "color": "purple"
+        },
+        {
+            "name": "triangle3",
+            "type": "triangle",
+            "indexes": [
+                [1, 1],
+                [1, 3],
+                [3, 3]
+            ],
+            "color": "crimson"
+        }
+    ]
+}
