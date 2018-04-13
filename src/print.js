@@ -1,4 +1,5 @@
-import {FreeGame} from "./FreeGame.js";
+import {FreeGame} from "./levels/FreeGame.js";
+import {Rabbit} from "./levels/Rabbit.js";
 
 export default function printMe(canvas) {
     var context = canvas.getContext("2d");
@@ -12,6 +13,6 @@ export default function printMe(canvas) {
 
     canvas.addEventListener('click', function newGame(evt) {
         canvas.removeEventListener('click', newGame);
-        new FreeGame(canvas);
+        new Rabbit(canvas);
     });
 }

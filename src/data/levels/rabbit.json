@@ -1,0 +1,40 @@
+{
+    "name": "rabbit",
+    "map": [
+        {
+            "name": "square",
+            "rotate": 0,
+            "pos": [7, 7]
+        },
+        {
+            "name": "parallelogram1",
+            "rotate": 0,
+            "pos": [7.5, 6]
+        },
+        {
+            "name": "triangle3",
+            "rotate": 0,
+            "pos": [8, 7.5]
+        },
+        {
+            "name": "triangle3",
+            "rotate": 4,
+            "pos": [8.6, 8.8]
+        },
+        {
+            "name": "triangle2",
+            "rotate": 1,
+            "pos": [7.4, 9]
+        },
+        {
+            "name": "triangle1",
+            "rotate": 7,
+            "pos": [8.4, 10]
+        },
+        {
+            "name": "triangle2",
+            "rotate": 6,
+            "pos": [7.9, 10.5]
+        }
+    ]
+}

@@ -6,7 +6,8 @@ module.exports = {
     entry: {
         app: './src/index.js',
         print: './src/print.js',
-        FreeGame: './src/FreeGame.js',
+        FreeGame: './src/levels/FreeGame.js',
+        Rabbit: './src/levels/Rabbit.js',
         Shape: './src/shapes/Shape.js',
         Square: './src/shapes/Square.js',
         Triangle: './src/shapes/Triangle.js',

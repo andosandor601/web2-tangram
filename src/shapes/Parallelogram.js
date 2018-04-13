@@ -19,6 +19,8 @@ export class Parallelogram extends Shape {
         this.x = 0;
         this.y = 0;
 
+        this.map = false;
+
         this.initPoints(shape.indexes);
 
         this.isDragging = false;
@@ -38,8 +40,16 @@ export class Parallelogram extends Shape {
         for (let i = 1; i < this.points.length; i++) {
             context.lineTo(this.points[i].x + this.x, this.points[i].y + this.y);
         }
-        context.fillStyle = this.color;
-        context.fill();
+        context.closePath();
+        if (this.map) {
+            context.lineWidth = 1;
+            context.strokeStyle = '#666666';
+            context.stroke();
+        }
+        else {
+            context.fillStyle = this.color;
+            context.fill();
+        }
     }
 
     isMouseInside(pointerX, pointerY) {

@@ -1,6 +1,6 @@
-import { Triangle } from './shapes/Triangle.js';
-import { Square } from './shapes/Square.js';
-import { Parallelogram } from './shapes/Parallelogram.js';
+import { Triangle } from '../shapes/Triangle.js';
+import { Square } from '../shapes/Square.js';
+import { Parallelogram } from '../shapes/Parallelogram.js';
 
 export class FreeGame {
 
@@ -43,7 +43,7 @@ export class FreeGame {
 
     initMainShapes() {
         if (!(this.mainShapes.length > 0)) {
-            const shapeData = require('./data/shapes.json');
+            const shapeData = require('../data/shapes.json');
             //var shapeData = JSON.parse('./data/shapes.json');
             var elements = shapeData.shapes;
             for (let i = 0; i < elements.length; i++) {
