@@ -1,4 +1,4 @@
-export default function check(point, node1, node2, node3, distX, distY){
+export default function checkPointInTriangle(point, node1, node2, node3, distX, distY){
     if(sign(point, node2, node1, distX, distY) < 0.0){
         return false;
     }

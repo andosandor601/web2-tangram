@@ -97,7 +97,7 @@ export class Rabbit {
                 for (let i = 0; i < shapeData.rotate; i++) {
                     newShape.rotate();
                 }
-                newShape.map = true;
+                newShape.empty = true;
             }
         });
     }
@@ -122,17 +122,24 @@ export class Rabbit {
     }
 
     draw() {
-        this.clear();
-        this.mainShapes.forEach(shape => {
-            shape.draw(this.context);
-        });
-        this.createdShapes.forEach(shape => {
-            shape.draw(this.context);
-        });
-        this.map.forEach(shape => {
-            shape.draw(this.context);
-            console.log(shape);
-        });
+        if (!this.isEnd()) {
+            this.clear();
+            this.mainShapes.forEach(shape => {
+                shape.draw(this.context);
+            });
+            this.createdShapes.forEach(shape => {
+                shape.draw(this.context);
+            });
+            this.map.forEach(shape => {
+                shape.draw(this.context);
+            });
+        } else {
+            this.clear();
+            this.context.fillStyle = "blue";
+            this.context.font = "small-caps bold 32px Arial";
+            this.context.fillText("Vége", (this.canvas.width / 2) - 17, (this.canvas.height / 2) - 50);
+            this.context.fill();
+        }
     }
 
     clear() {
@@ -204,7 +211,17 @@ export class Rabbit {
                     shape.rotate();
                 }
             });
-            this.draw();
+        } else {
+            for (let i = 0; i < this.createdShapes.length; i++) {
+                if (this.createdShapes[i].isDragging && this.isPointerCloseToMap(e.clientX, e.clientY)) {
+                    var fit = this.createdShapes[i].findFit(this.map);
+                    if (fit != null) {
+                        fit.accept(this.createdShapes[i]);
+                    }
+                    this.createdShapes.splice(i, 1);
+                }
+
+            }
         }
 
         this.dragok = false;
@@ -212,5 +229,25 @@ export class Rabbit {
         this.createdShapes.forEach(shape => {
             shape.isDragging = false;
         });
+
+        this.draw();
+    }
+
+    isPointerCloseToMap(pointerX, pointerY) {
+        for (let i = 0; i < this.map.length; i++) {
+            if (this.map[i].isCloseToPoint(pointerX, pointerY, 100)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isEnd() {
+        for (let i = 0; i < this.map.length; i++) {
+            if (this.map[i].empty === true) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -14,7 +14,8 @@ module.exports = {
         Parallelogram: './src/shapes/Parallelogram.js',
         Point: './src/math/Point.js',
         pointAndTriangle: './src/math/pointAndTriangle.js',
-        rotate: './src/math/rotate.js'
+        rotate: './src/math/rotate.js',
+        distance: './src/math/distance.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),

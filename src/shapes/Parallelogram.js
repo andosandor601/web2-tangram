@@ -1,7 +1,8 @@
 import { Shape } from './Shape.js';
 import { Point } from '../math/Point.js';
-import check from '../math/pointAndTriangle.js';
+import checkPointInTriangle from '../math/pointAndTriangle.js';
 import rotate from '../math/rotate.js';
+import distance from '../math/distance.js';
 
 export class Parallelogram extends Shape {
     constructor(shape, z, scale, color) {
@@ -19,7 +20,7 @@ export class Parallelogram extends Shape {
         this.x = 0;
         this.y = 0;
 
-        this.map = false;
+        this.empty = false;
 
         this.initPoints(shape.indexes);
 
@@ -41,7 +42,7 @@ export class Parallelogram extends Shape {
             context.lineTo(this.points[i].x + this.x, this.points[i].y + this.y);
         }
         context.closePath();
-        if (this.map) {
+        if (this.empty) {
             context.lineWidth = 1;
             context.strokeStyle = '#666666';
             context.stroke();
@@ -53,13 +54,44 @@ export class Parallelogram extends Shape {
     }
 
     isMouseInside(pointerX, pointerY) {
-        return check(new Point(pointerX, pointerY), this.points[0], this.points[1], this.points[2], this.x, this.y) ||
-            check(new Point(pointerX, pointerY), this.points[2], this.points[3], this.points[0], this.x, this.y);
+        return checkPointInTriangle(new Point(pointerX, pointerY), this.points[0], this.points[1], this.points[2], this.x, this.y) ||
+            checkPointInTriangle(new Point(pointerX, pointerY), this.points[2], this.points[3], this.points[0], this.x, this.y);
     }
 
     rotate() {
         for (let i = 0; i < this.points.length; i++) {
             this.points[i] = rotate(this.centre, this.points[i], this.angle);
         }
+    }
+
+    isCloseToPoint(pointerX, pointerY, radius) {
+        for (let i = 0; i < this.points.length; i++) {
+            if (distance(new Point(pointerX, pointerY), new Point(this.points[i].x + this.x, this.points[i].y + this.y)) < radius) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    findFit(map) {
+        for (let i = 0; i < map.length; i++) {
+            if (map[i].name === this.name && this.isNear(map[i])) {
+                return map[i];
+            }       
+        }
+        return null;
+    }
+
+    isNear(shape) {
+        for (let i = 0; i < shape.points.length; i++) {
+            if (!this.isCloseToPoint(shape.points[i].x + shape.x, shape.points[i].y + shape.y, (0.3 * this.scale))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    accept(shape) {
+        this.empty = false;
     }
 }
