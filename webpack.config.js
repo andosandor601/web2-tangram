@@ -30,4 +30,17 @@ module.exports = {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
+    module: {
+        rules: [
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {}
+                    }
+                ]
+            }
+        ]
+    }
 };
