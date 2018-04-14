@@ -51,7 +51,6 @@ export class Medium {
             for (let i = 0; i < elements.length; i++) {
                 this.createShape(elements[i]);
             }
-            this.setMainShapesPositions();
         }
     }
 
@@ -71,9 +70,10 @@ export class Medium {
         }
     }
 
-    setMainShapesPositions() {
-        for (let i = 0; i < this.mainShapes.length; i++) {
-            this.mainShapes[i].x = i * 2 * this.scale;
+    setShapesPositions() {
+        for (let i = 0; i < this.createdShapes.length; i++) {
+            this.createdShapes[i].x = i * 2 * this.scale;
+            this.createdShapes[i].y = Math.floor((i * 2) / 20) * 3 * this.scale;
         }
     }
 
@@ -84,22 +84,27 @@ export class Medium {
             for (let i = 0; i < elements.length; i++) {
                 this.drawMap(elements[i]);
             }
-            this.setMainShapesPositions();
+            this.setShapesPositions();
         }
     }
 
     drawMap(shapeData) {
         this.mainShapes.forEach(shape => {
             if (shapeData.name === shape.name) {
-                var newShape = this.addShape(shape, this.map);
-                newShape.x = shapeData.pos[0] * Math.round(this.scale);
-                newShape.y = shapeData.pos[1] * Math.round(this.scale);
+                var mapShape = this.addShape(shape, this.map);
+                mapShape.x = shapeData.pos[0] * Math.round(this.scale);
+                mapShape.y = shapeData.pos[1] * Math.round(this.scale);
+                var createdShape = this.addShape(shape, this.createdShapes);
                 for (let i = 0; i < shapeData.rotate; i++) {
-                    newShape.rotate();
+                    mapShape.rotate();
                 }
-                newShape.empty = true;
+                for (let i = 0; i < Math.floor((Math.random() * 8)); i++) {
+                    createdShape.rotate();
+                }
+                mapShape.empty = true;
             }
         });
+        this.setShapesPositions();
     }
 
     addShape(shape, container) {
@@ -124,9 +129,6 @@ export class Medium {
     draw() {
         if (!this.isEnd()) {
             this.clear();
-            this.mainShapes.forEach(shape => {
-                shape.draw(this.context);
-            });
             this.createdShapes.forEach(shape => {
                 shape.draw(this.context);
             });
@@ -154,15 +156,6 @@ export class Medium {
         var pointerY = parseInt(e.clientY - this.offsetY);
 
         this.dragok = false;
-        this.mainShapes.forEach(shape => {
-            if (shape.isMouseInside(pointerX, pointerY)) {
-                this.dragok = true;
-                var newShape = this.addShape(shape, this.createdShapes);
-                newShape.x = parseInt(e.clientX);
-                newShape.y = parseInt(shape.y + this.scale * 3);
-                this.draw();
-            }
-        });
 
         this.createdShapes.forEach(shape => {
             if (shape.isMouseInside(pointerX, pointerY)) {
@@ -217,8 +210,10 @@ export class Medium {
                     var fit = this.createdShapes[i].findFit(this.map);
                     if (fit != null) {
                         fit.accept(this.createdShapes[i]);
+                        this.createdShapes.splice(i, 1);
+                    } else {
+                        this.setShapesPositions();
                     }
-                    this.createdShapes.splice(i, 1);
                 }
 
             }

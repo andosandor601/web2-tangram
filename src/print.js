@@ -14,6 +14,6 @@ export default function printMe(canvas) {
 
     canvas.addEventListener('click', function newGame(evt) {
         canvas.removeEventListener('click', newGame);
-        new Easy(canvas);
+        new Medium(canvas);
     });
 }
