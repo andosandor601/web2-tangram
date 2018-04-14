@@ -1,4 +1,5 @@
 import {FreeGame} from "./levels/FreeGame.js";
+import {Hard} from "./levels/Hard.js";
 import {Medium} from "./levels/Medium.js";
 import {Easy} from "./levels/Easy.js";
 
@@ -14,6 +15,6 @@ export default function printMe(canvas) {
 
     canvas.addEventListener('click', function newGame(evt) {
         canvas.removeEventListener('click', newGame);
-        new Medium(canvas);
+        new Hard(canvas);
     });
 }
