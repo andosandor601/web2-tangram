@@ -2,7 +2,7 @@ import { Triangle } from '../shapes/Triangle.js';
 import { Square } from '../shapes/Square.js';
 import { Parallelogram } from '../shapes/Parallelogram.js';
 
-export class Rabbit {
+export class Medium {
 
     constructor(canvas) {
 
