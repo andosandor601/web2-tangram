@@ -1,0 +1,14 @@
+{
+    "levels": [
+        {
+            "name": "FreeGame",
+            "source": "../src/img/free.png",
+            "dimension": [101, 155]
+        },
+        {
+            "name": "../src/data/levels/rabbit.json",
+            "source": "../src/img/rabbit.png",
+            "dimension": [101, 155]
+        }
+    ]
+}

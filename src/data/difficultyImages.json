@@ -1,0 +1,19 @@
+{
+    "difficulties": [
+        {
+            "name": "easy",
+            "source": "../src/img/easy.png",
+            "dimension": [101, 155]
+        },
+        {
+            "name": "medium",
+            "source": "../src/img/medium.png",
+            "dimension": [101, 155]
+        },
+        {
+            "name": "hard",
+            "source": "../src/img/hard.png",
+            "dimension": [101, 155]
+        }
+    ]
+}

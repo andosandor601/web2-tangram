@@ -1,6 +1,8 @@
 import { Triangle } from '../shapes/Triangle.js';
 import { Square } from '../shapes/Square.js';
 import { Parallelogram } from '../shapes/Parallelogram.js';
+import smile from '../img/smile.png';
+import printMe from '../print.js';
 
 export class Medium {
 
@@ -22,7 +24,7 @@ export class Medium {
         this.startX;
         this.startY;
 
-        this.scale = this.width / 20;
+        this.scale = this.width / 17;
 
         this.mainShapes = [];
         this.createdShapes = [];
@@ -32,9 +34,21 @@ export class Medium {
         this.initMainShapes();
         this.initMap();
 
-        this.canvas.addEventListener("pointerdown", e => this.onDown(e));
-        this.canvas.addEventListener("pointermove", e => this.onMove(e));
-        this.canvas.addEventListener("pointerup", e => this.onUp(e));
+        var _this = this;
+
+        this.down = function down(e) {
+            _this.onDown(e);
+        };
+        this.move = function move(e) {
+            _this.onMove(e);
+        };
+        this.up = function up(e) {
+            _this.onUp(e);
+        };
+
+        this.canvas.addEventListener("pointerdown", this.down);
+        this.canvas.addEventListener("pointermove", this.move);
+        this.canvas.addEventListener("pointerup", this.up);
 
         this.draw();
 
@@ -72,8 +86,8 @@ export class Medium {
 
     setShapesPositions() {
         for (let i = 0; i < this.createdShapes.length; i++) {
-            this.createdShapes[i].x = i * 2 * this.scale;
-            this.createdShapes[i].y = Math.floor((i * 2) / 20) * 3 * this.scale;
+            this.createdShapes[i].x = ((i * 2) % 17) * this.scale;
+            this.createdShapes[i].y = Math.floor((i * 2) / 17) * 3 * this.scale;
         }
     }
 
@@ -136,11 +150,7 @@ export class Medium {
                 shape.draw(this.context);
             });
         } else {
-            this.clear();
-            this.context.fillStyle = "blue";
-            this.context.font = "small-caps bold 32px Arial";
-            this.context.fillText("Vége", (this.canvas.width / 2) - 17, (this.canvas.height / 2) - 50);
-            this.context.fill();
+            this.finish(this.context);
         }
     }
 
@@ -244,5 +254,22 @@ export class Medium {
             }
         }
         return true;
+    }
+
+    finish(context) {
+        this.canvas.removeEventListener('pointerdown', this.down);
+        this.canvas.removeEventListener('pointermove', this.move);
+        this.canvas.removeEventListener('pointerup', this.up);
+
+        this.clear();
+        var width = this.width;
+        var img = new Image(101, 155);
+        img.onload = function () {
+            context.drawImage(this, width / 2 - 101 / 2, width / 2 - 155 / 2);
+        };
+
+        img.src = smile;
+
+        setTimeout(printMe.bind(null, this.canvas), 3000);
     }
 }
