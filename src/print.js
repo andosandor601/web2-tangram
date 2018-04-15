@@ -3,10 +3,9 @@ import { Hard } from "./levels/Hard.js";
 import { Medium } from "./levels/Medium.js";
 import { Easy } from "./levels/Easy.js";
 import { Square } from "./shapes/Square.js";
+import {exit, isExit} from "./exit.js";
 
 export default function printMe(canvas) {
-
-
     var imgShapes = [];
 
     drawMaps(imgShapes, canvas);
@@ -19,14 +18,16 @@ export default function printMe(canvas) {
     // context.fill();
 
     canvas.addEventListener('click', function chooseLevel(evt) {
-        canvas.removeEventListener('click', chooseLevel);
+        
         for (let i = 0; i < imgShapes.length; i++) {
             if (imgShapes[i].isMouseInside(evt.clientX, evt.clientY)) {
                 if (imgShapes[i].name === "FreeGame") {
                     new FreeGame(canvas);
+                    canvas.removeEventListener('click', chooseLevel);
                 }
                 else {
                     drawDifficulties(canvas, imgShapes[i].name);
+                    canvas.removeEventListener('click', chooseLevel);
                 }
             }
         }
@@ -69,6 +70,7 @@ function drawMaps(container, canvas) {
 function drawDifficulties(canvas, level) {
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
+    exit(canvas);
     var imgData = require('./data/difficultyImages.json');
     var difficulties = [];
 
@@ -101,16 +103,21 @@ function drawDifficulties(canvas, level) {
     }
     canvas.addEventListener('click', function chooseDifficulty(evt) {
         canvas.removeEventListener('click', chooseDifficulty);
-        for (let i = 0; i < difficulties.length; i++) {
-            if (difficulties[i].isMouseInside(evt.clientX, evt.clientY)) {
-                if (difficulties[i].name === "easy") {
-                    new Easy(canvas);
-                }
-                else if (difficulties[i].name === "medium") {
-                    new Medium(canvas);
-                }
-                else {
-                    new Hard(canvas);
+        if (isExit(canvas.width, evt.clientX, evt.clientY)) {
+            printMe(canvas);
+        }
+        else{
+            for (let i = 0; i < difficulties.length; i++) {
+                if (difficulties[i].isMouseInside(evt.clientX, evt.clientY)) {
+                    if (difficulties[i].name === "easy") {
+                        new Easy(canvas);
+                    }
+                    else if (difficulties[i].name === "medium") {
+                        new Medium(canvas);
+                    }
+                    else {
+                        new Hard(canvas);
+                    }
                 }
             }
         }

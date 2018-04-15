@@ -1,9 +1,10 @@
 import { Triangle } from '../shapes/Triangle.js';
 import { Square } from '../shapes/Square.js';
 import { Parallelogram } from '../shapes/Parallelogram.js';
-import {ArbitraryShape} from '../shapes/ArbitraryShape.js';
+import { ArbitraryShape } from '../shapes/ArbitraryShape.js';
 import smile from '../img/smile.png';
 import printMe from '../print.js';
+import { exit, isExit} from '../exit.js';
 
 
 export class Hard {
@@ -144,11 +145,12 @@ export class Hard {
         }
     }
 
-    createOutline(points){
+    createOutline(points) {
         this.outline = new ArbitraryShape(points, this.scale);
     }
 
     draw() {
+        exit(this.canvas);
         if (!this.isEnd()) {
             this.clear();
             this.createdShapes.forEach(shape => {
@@ -157,7 +159,7 @@ export class Hard {
             this.map.forEach(shape => {
                 if (!shape.empty) {
                     shape.draw(this.context);
-                }                
+                }
             });
             this.outline.draw(this.context);
         } else {
@@ -176,17 +178,25 @@ export class Hard {
         var pointerX = parseInt(e.clientX - this.offsetX);
         var pointerY = parseInt(e.clientY - this.offsetY);
 
-        this.dragok = false;
+        if (isExit(this.width, pointerX, pointerY)) {
+            this.canvas.removeEventListener('pointerdown', this.down);
+            this.canvas.removeEventListener('pointermove', this.move);
+            this.canvas.removeEventListener('pointerup', this.up);
+            printMe(this.canvas);
+        } else {
 
-        this.createdShapes.forEach(shape => {
-            if (shape.isMouseInside(pointerX, pointerY)) {
-                this.dragok = true;
-                shape.isDragging = true;
-            }
-        });
+            this.dragok = false;
 
-        this.startX = pointerX;
-        this.startY = pointerY;
+            this.createdShapes.forEach(shape => {
+                if (shape.isMouseInside(pointerX, pointerY)) {
+                    this.dragok = true;
+                    shape.isDragging = true;
+                }
+            });
+
+            this.startX = pointerX;
+            this.startY = pointerY;
+        }
     }
 
     onMove(e) {

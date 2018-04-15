@@ -1,6 +1,8 @@
 import { Triangle } from '../shapes/Triangle.js';
 import { Square } from '../shapes/Square.js';
 import { Parallelogram } from '../shapes/Parallelogram.js';
+import { exit, isExit } from "../exit.js";
+import printMe from "../print.js";
 
 export class FreeGame {
 
@@ -30,9 +32,21 @@ export class FreeGame {
         this.clear();
         this.initMainShapes();
 
-        this.canvas.addEventListener("pointerdown", e => this.onDown(e));
-        this.canvas.addEventListener("pointermove", e => this.onMove(e));
-        this.canvas.addEventListener("pointerup", e => this.onUp(e));
+        var _this = this;
+
+        this.down = function down(e) {
+            _this.onDown(e);
+        };
+        this.move = function move(e) {
+            _this.onMove(e);
+        };
+        this.up = function up(e) {
+            _this.onUp(e);
+        };
+
+        this.canvas.addEventListener("pointerdown", this.down);
+        this.canvas.addEventListener("pointermove", this.move);
+        this.canvas.addEventListener("pointerup", this.up);
 
         this.draw();
 
@@ -96,6 +110,7 @@ export class FreeGame {
 
     draw() {
         this.clear();
+        exit(this.canvas);
         this.mainShapes.forEach(shape => {
             shape.draw(this.context);
         });
@@ -115,26 +130,33 @@ export class FreeGame {
         var pointerX = parseInt(e.clientX - this.offsetX);
         var pointerY = parseInt(e.clientY - this.offsetY);
 
-        this.dragok = false;
-        this.mainShapes.forEach(shape => {
-            if (shape.isMouseInside(pointerX, pointerY)) {
-                this.dragok = true;
-                var newShape = this.addShape(shape);
-                newShape.x = parseInt(e.clientX);
-                newShape.y = parseInt(shape.y + this.scale * 3);
-                this.draw();
-            }
-        });
+        if (isExit(this.width, pointerX, pointerY)) {
+            this.canvas.removeEventListener('pointerdown', this.down);
+            this.canvas.removeEventListener('pointermove', this.move);
+            this.canvas.removeEventListener('pointerup', this.up);
+            printMe(this.canvas);
+        } else {
+            this.dragok = false;
+            this.mainShapes.forEach(shape => {
+                if (shape.isMouseInside(pointerX, pointerY)) {
+                    this.dragok = true;
+                    var newShape = this.addShape(shape);
+                    newShape.x = parseInt(e.clientX);
+                    newShape.y = parseInt(shape.y + this.scale * 3);
+                    this.draw();
+                }
+            });
 
-        this.createdShapes.forEach(shape => {
-            if (shape.isMouseInside(pointerX, pointerY)) {
-                this.dragok = true;
-                shape.isDragging = true;
-            }
-        });
+            this.createdShapes.forEach(shape => {
+                if (shape.isMouseInside(pointerX, pointerY)) {
+                    this.dragok = true;
+                    shape.isDragging = true;
+                }
+            });
 
-        this.startX = pointerX;
-        this.startY = pointerY;
+            this.startX = pointerX;
+            this.startY = pointerY;
+        }
     }
 
     onMove(e) {

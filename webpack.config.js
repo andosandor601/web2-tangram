@@ -6,6 +6,8 @@ module.exports = {
     entry: {
         app: './src/index.js',
         print: './src/print.js',
+        exit: './src/exit.js',
+        isExit: './src/exit.js',
         FreeGame: './src/levels/FreeGame.js',
         Easy: './src/levels/Easy.js',
         Medium: './src/levels/Medium.js',
