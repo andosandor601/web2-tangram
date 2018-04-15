@@ -8,6 +8,7 @@ function component() {
     const borderWidth = 2;
     const width = Math.min(window.innerWidth, window.innerHeight) - 5 * borderWidth;
     canvas.width = canvas.height = width;
+    canvas.style.touchAction = "none";
     printMe(canvas);
 
     element.appendChild(document.createElement('div')).appendChild(canvas);
