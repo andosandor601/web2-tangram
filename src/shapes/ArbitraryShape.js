@@ -4,9 +4,8 @@ import checkPointInTriangle from '../math/pointAndTriangle.js';
 import rotate from '../math/rotate.js';
 import distance from '../math/distance.js';
 
-export class ArbitraryShape extends Shape {
+export class ArbitraryShape{
     constructor(indexes, scale) {
-        super();
         this.scale = scale;
 
         this.points = [];
