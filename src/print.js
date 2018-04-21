@@ -102,13 +102,15 @@ function drawDifficulties(canvas, level) {
         img.src = imagePath;
     }
     canvas.addEventListener('click', function chooseDifficulty(evt) {
-        canvas.removeEventListener('click', chooseDifficulty);
+        
         if (isExit(canvas.width, evt.clientX, evt.clientY)) {
+            canvas.removeEventListener('click', chooseDifficulty);
             printMe(canvas);
         }
         else{
             for (let i = 0; i < difficulties.length; i++) {
                 if (difficulties[i].isMouseInside(evt.clientX, evt.clientY)) {
+                    canvas.removeEventListener('click', chooseDifficulty);
                     if (difficulties[i].name === "easy") {
                         new Easy(canvas);
                     }
