@@ -27,7 +27,7 @@ export class Hard {
         this.startX;
         this.startY;
 
-        this.scale = this.width / 17;
+        this.scale =  parseFloat((this.width / 13).toPrecision(12));
 
         this.mainShapes = [];
         this.createdShapes = [];
@@ -66,9 +66,8 @@ export class Hard {
         if (!(this.mainShapes.length > 0)) {
             const shapeData = require('../data/shapes.json');
             //var shapeData = JSON.parse('./data/shapes.json');
-            var elements = shapeData.shapes;
-            for (let i = 0; i < elements.length; i++) {
-                this.createShape(elements[i]);
+            for (let i = 0; i < shapeData.length; i++) {
+                this.createShape(shapeData[i]);
             }
         }
     }
@@ -91,8 +90,8 @@ export class Hard {
 
     setShapesPositions() {
         for (let i = 0; i < this.createdShapes.length; i++) {
-            this.createdShapes[i].x = ((i * 2) % 17) * this.scale;
-            this.createdShapes[i].y = Math.floor((i * 2) / 17) * 3 * this.scale;
+            this.createdShapes[i].x = ((i * 2) % 10) * this.scale;
+            this.createdShapes[i].y = Math.floor((i * 2) / 10) * 3 * this.scale;
         }
     }
 
@@ -112,8 +111,8 @@ export class Hard {
         this.mainShapes.forEach(shape => {
             if (shapeData.name === shape.name) {
                 var mapShape = this.addShape(shape, this.map);
-                mapShape.x = shapeData.pos[0] * Math.round(this.scale);
-                mapShape.y = shapeData.pos[1] * Math.round(this.scale);
+                mapShape.x = shapeData.pos[0] * this.scale;
+                mapShape.y = shapeData.pos[1] * this.scale;
                 var createdShape = this.addShape(shape, this.createdShapes);
                 for (let i = 0; i < shapeData.rotate; i++) {
                     mapShape.rotate();

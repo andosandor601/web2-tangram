@@ -24,7 +24,7 @@ export class FreeGame {
         this.startX;
         this.startY;
 
-        this.scale = this.width / 20;
+        this.scale = parseFloat((this.width / 13).toPrecision(12));
 
         this.mainShapes = [];
         this.createdShapes = [];
@@ -59,9 +59,8 @@ export class FreeGame {
         if (!(this.mainShapes.length > 0)) {
             const shapeData = require('../data/shapes.json');
             //var shapeData = JSON.parse('./data/shapes.json');
-            var elements = shapeData.shapes;
-            for (let i = 0; i < elements.length; i++) {
-                this.createShape(elements[i]);
+            for (let i = 0; i < shapeData.length; i++) {
+                this.createShape(shapeData[i]);
             }
             this.setMainShapesPositions();
         }
@@ -85,7 +84,8 @@ export class FreeGame {
 
     setMainShapesPositions() {
         for (let i = 0; i < this.mainShapes.length; i++) {
-            this.mainShapes[i].x = i * 2 * this.scale;
+            this.mainShapes[i].x = ((i * 2) % 10) * this.scale;
+            this.mainShapes[i].y = Math.floor((i * 2) / 10) * 3 * this.scale;
         }
     }
 

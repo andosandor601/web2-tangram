@@ -38,10 +38,10 @@ function drawMaps(container, canvas) {
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
     var imgData = require('./data/levelImages.json');
-    for (let i = 0; i < imgData.levels.length; i++) {
-        var imagePath = imgData.levels[i].source;
-        var imgX = imgData.levels[i].dimension[0];
-        var imgY = imgData.levels[i].dimension[1];
+    for (let i = 0; i < imgData.length; i++) {
+        var imagePath = imgData[i].source;
+        var imgX = imgData[i].dimension[0];
+        var imgY = imgData[i].dimension[1];
         var img = new Image(imgX, imgY);
 
         img.onload = function () {
@@ -59,7 +59,7 @@ function drawMaps(container, canvas) {
                 },
                 1, 1, "red"
             );
-            shape.name = imgData.levels[i].name;
+            shape.name = imgData[i].name;
             container.push(shape);
         };
 
@@ -74,10 +74,10 @@ function drawDifficulties(canvas, level) {
     var imgData = require('./data/difficultyImages.json');
     var difficulties = [];
 
-    for (let i = 0; i < imgData.difficulties.length; i++) {
-        var imagePath = imgData.difficulties[i].source;
-        var imgX = imgData.difficulties[i].dimension[0];
-        var imgY = imgData.difficulties[i].dimension[1];
+    for (let i = 0; i < imgData.length; i++) {
+        var imagePath = imgData[i].source;
+        var imgX = imgData[i].dimension[0];
+        var imgY = imgData[i].dimension[1];
         var img = new Image(imgX, imgY);
 
         img.onload = function () {
@@ -95,7 +95,7 @@ function drawDifficulties(canvas, level) {
                 },
                 1, 1, "red"
             );
-            shape.name = imgData.difficulties[i].name;
+            shape.name = imgData[i].name;
             difficulties.push(shape);
         };
 
